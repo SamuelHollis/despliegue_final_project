@@ -1,13 +1,17 @@
-from dotenv import load_dotenv
-from sqlalchemy import create_engine
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-# load the .env file variables
-load_dotenv()
+def visualize_sentiment_distribution(results):
+    # Toma los resultados de los análisis y crea una gráfica
+    sentiments = [r['label'] for r in results]
+    df = pd.DataFrame(sentiments, columns=['Sentiment'])
+    
+    sns.countplot(x='Sentiment', data=df)
+    plt.title("Distribución de Sentimientos")
+    plt.show()
 
-
-def db_connect():
-    import os
-    engine = create_engine(os.getenv('DATABASE_URL'))
-    engine.connect()
-    return engine
+def process_comments(comments):
+    # Proceso básico de limpieza de comentarios (puedes expandirlo)
+    cleaned_comments = [comment.strip().lower() for comment in comments]
+    return cleaned_comments
